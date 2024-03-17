@@ -16,8 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework import routers
+from tours import views
 
+router = routers.DefaultRouter()
+router.register(r'tours', views.TourSerializerView, 'tours')
 urlpatterns = [
     path("tours/", include("tours.urls")),
     path("admin/", admin.site.urls),
+    path('api/', include(router.urls)),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
