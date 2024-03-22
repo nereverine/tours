@@ -6,7 +6,10 @@ from .models import Tour
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Hello World")
+    return HttpResponse("At Main Index")
+
+def toursIndex(request):
+    return HttpResponse("At Tours Index")
 
 def countryDetail(request, country_id):
     return HttpResponse("You're looking at the country %s." % country_id)

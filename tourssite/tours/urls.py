@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     # /tours/
-    path("", views.index, name="index"),
-    #ex:/tours/1/
+    path("", views.toursIndex, name="index"),
+    #ex:/tours/countries/1/
     path("countries/<int:country_id>/", views.countryDetail, name="detail"),
 ]

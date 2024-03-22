@@ -22,8 +22,11 @@ from tours import views
 router = routers.DefaultRouter()
 router.register(r'tours', views.TourSerializerView, 'tours')
 urlpatterns = [
+    path("", views.index, name="index"),
     path("tours/", include("tours.urls")),
     path("admin/", admin.site.urls),
     path('api/', include(router.urls)),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
+
+admin.site.site_header = "Tours Administration"

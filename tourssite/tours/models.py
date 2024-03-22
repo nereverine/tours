@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib import admin
+from django.forms import inlineformset_factory
 
 # Create your models here.
 class Continent(models.Model):
@@ -30,17 +32,19 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
+
 class Poi(models.Model):
     class Meta:
         db_table = 'poi'
-    cityId = models.ForeignKey(City, on_delete=models.CASCADE, db_column="city_id")
-    poiType = models.ForeignKey("PoiType", on_delete=models.CASCADE, db_column="poi_type") #since it doesnt exist yet, we have to use double quotes
-    def __str__(self): #get the name of the poi by checking in the PoiDetails model
-        for i in PoiDetails.objects.all():
-            if i.poiId == self.pk:
-                return str(i.name)
-    #def __str__(self):
-     #   return str(self.cityId)
+    cityId = models.ForeignKey(City, on_delete=models.CASCADE, db_column="city_id", verbose_name="City")
+    poiType = models.ForeignKey("PoiType", on_delete=models.CASCADE, db_column="poi_type", verbose_name="Poi Type") #since it doesnt exist yet, we have to use double quote
+    #def __str__(self): #get the name of the poi by checking in the PoiDetails model
+     #    for i in PoiDetails.objects.all():
+      #      if i.poiId == self.pk:
+       #         return str(i.name)
+    def __str__(self):
+        return PoiDetails.objects.get(poiId=self.pk).name
+    
 
 class PoiDetails(models.Model):
     class Meta:
@@ -77,7 +81,7 @@ class TourPoi(models.Model):
     class Meta:
         db_table = 'tourPoi'
     tourId = models.ForeignKey(Tour, on_delete=models.CASCADE, db_column="tour_id")
-    poiId = models.ForeignKey(Poi, on_delete=models.CASCADE, db_column="poi_id")
+    poiId = models.ForeignKey(Poi, on_delete=models.CASCADE, db_column="poi_id", verbose_name="Poi")
     def __str__(self): #get the name of the poi by checking in the PoiDetails model
         for i in PoiDetails.objects.all():
             if i.poiId == self.poiId:
