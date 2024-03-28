@@ -21,6 +21,7 @@ from tours import views
 
 router = routers.DefaultRouter()
 router.register(r'tours', views.TourSerializerView, 'tours')
+router.register(r'users', views.UserSerializerView, 'users')
 urlpatterns = [
     path("", views.index, name="index"),
     path("tours/", include("tours.urls")),

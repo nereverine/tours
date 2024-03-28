@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import { positions } from '@mui/system';
+import {useNavigate, Link} from "react-router-dom";
 
 export default class Login extends Component{
     constructor(props) {
@@ -10,7 +11,9 @@ export default class Login extends Component{
         this.state = {
           activeItem: this.props.activeItem,
         };
+        document.title="Login"
     }
+
 
     render() {
 
@@ -42,7 +45,9 @@ export default class Login extends Component{
             <div class="my-2" style={{textAlign:"center", fontFamily:"PT Mono"}}>
               or
             </div>
-            <Button variant="outlined" style={{background:"white", color:"black", border:"1px solid black"}}>Register</Button>
+            
+            <Button variant="outlined" component={Link} to="/register" style={{background:"white", color:"black", border:"1px solid black"}}>Register</Button>
+            
               <ul className="list-group list-group-flush border-top-0">
                 {/* {this.renderItems()} */}
               </ul>
