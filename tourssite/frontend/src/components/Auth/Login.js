@@ -1,21 +1,34 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import { positions } from '@mui/system';
 import {useNavigate, Link} from "react-router-dom";
+import axios from "axios";
 
-export default class Login extends Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-          activeItem: this.props.activeItem,
-        };
+export default function Login(){
         document.title="Login"
-    }
+
+        const [username, setUsername] = useState('');
+        const [password, setPassword] = useState('');
+        const [error, setError] = useState('');
+
+        const handleLogin = async () => {
+          try {
+            const response = await axios.post('/api/login/', {
+              username: username,
+              password: password
+            });
+            //Successful login
+            alert("yo we in");
+          }catch(error){
+            //alert(error.response.data.error);
+            alert(error)
+          }
+        };
 
 
-    render() {
+    
 
         return (
             <main className="container d-flex justify-content-center align-items-center">
@@ -28,11 +41,11 @@ export default class Login extends Component{
               <div className="mt-4" style={{fontFamily:"PT Mono", color: "#5B5A5A"}}>
                 Email or username
               </div>
-              <TextField id="textfield-user" size="small" sx={{mb: 3}}/>
+              <TextField value={username} size="small" sx={{mb: 3}} onChange={(e)=> setUsername(e.target.value)}/>
               <div style={{fontFamily:"PT Mono", color: "#5B5A5A"}}>
                 Password
               </div>
-              <TextField id="textfield-password" type="password" size="small"/>
+              <TextField value={password} type="password" size="small" onChange={(e)=> setPassword(e.target.value)}/>
               {/* {this.renderTabList()} */}
               <div class="input-group pm-form-group">
               <div class="flex space-between">
@@ -41,7 +54,7 @@ export default class Login extends Component{
                   href="/trouble-signing-in">Forgot password?</a>
               </div>
             </div>
-            <Button variant="contained" style={{background:"#3282B8"}}>Sign in</Button>
+            <Button variant="contained" onClick={handleLogin} style={{background:"#3282B8"}}>Sign in</Button>
             <div class="my-2" style={{textAlign:"center", fontFamily:"PT Mono"}}>
               or
             </div>
@@ -56,8 +69,6 @@ export default class Login extends Component{
         </div>
         
       </main>
-        );
+        )
     }
-
-
-}
+  

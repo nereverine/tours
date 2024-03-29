@@ -19,6 +19,7 @@ from django.urls import include, path
 from rest_framework import routers
 from tours import views
 
+
 router = routers.DefaultRouter()
 router.register(r'tours', views.TourSerializerView, 'tours')
 router.register(r'users', views.UserSerializerView, 'users')
@@ -28,6 +29,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('api/', include(router.urls)),
     path("__debug__/", include("debug_toolbar.urls")),
+    path("api/login/", views.LoginView.as_view(), name='login'),
 ]
 
 admin.site.site_header = "Tours Administration"

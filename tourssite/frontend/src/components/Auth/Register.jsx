@@ -8,7 +8,7 @@ import {useNavigate, Link} from "react-router-dom";
 document.title="Register"
 
 
-export default function Login(){
+export default function Register(){
      const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState(false);
     const handleEmailChange = e => {
