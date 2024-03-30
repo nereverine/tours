@@ -8,6 +8,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import BadRequest
 
 # Create your views here.
 def index(request):
@@ -18,6 +22,23 @@ def toursIndex(request):
 
 def countryDetail(request, country_id):
     return HttpResponse("You're looking at the country %s." % country_id)
+
+def user_list(request):
+    if request.method == 'GET':
+        username = request.GET.get('username') #Get the username
+        email = request.GET.get('email') #Get the email
+        if username:
+            #Filter users by username
+            users = User.objects.filter(username__iexact=username)
+            data = [{'id': user.id,'password':user.password, 'last_login':user.last_login, 'is_superuser': user.is_superuser, 'username': user.username, 'first_name': user.first_name, 'last_name': user.last_name , 'email': user.email, 'is_staff':user.is_staff, 'is_active':user.is_active, 'date_joined':user.date_joined} for user in users]
+            return JsonResponse(data, safe=False)
+        if email:
+            #Filter users by email
+            users = User.objects.filter(email__iexact=email)
+            data = [{'id': user.id,'password':user.password, 'last_login':user.last_login, 'is_superuser': user.is_superuser, 'username': user.username, 'first_name': user.first_name, 'last_name': user.last_name , 'email': user.email, 'is_staff':user.is_staff, 'is_active':user.is_active, 'date_joined':user.date_joined} for user in users]
+            return JsonResponse(data, safe=False)
+    
+    
 
 class TourSerializerView(viewsets.ModelViewSet):
     serializer_class = TourSerializer
@@ -43,3 +64,4 @@ class LoginView(APIView):
         else:
             #Invalid request data
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
