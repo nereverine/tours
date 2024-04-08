@@ -31,6 +31,7 @@ urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     path("api/login/", views.LoginView.as_view(), name='login'),
     path("api/user/", views.user_list, name="user-list"),
+    path('api/register/', views.register_user, name="register_user")
 ]
 
 admin.site.site_header = "Tours Administration"

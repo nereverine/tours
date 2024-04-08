@@ -1,17 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import viewsets
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, update_last_login
 from .serializers import TourSerializer, UserSerializer, LoginSerializer
 from .models import Tour
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
-from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.core.exceptions import BadRequest
+from django.contrib.auth.hashers import make_password
+from rest_framework.decorators import api_view
 
 # Create your views here.
 def index(request):
@@ -37,7 +36,23 @@ def user_list(request):
             users = User.objects.filter(email__iexact=email)
             data = [{'id': user.id,'password':user.password, 'last_login':user.last_login, 'is_superuser': user.is_superuser, 'username': user.username, 'first_name': user.first_name, 'last_name': user.last_name , 'email': user.email, 'is_staff':user.is_staff, 'is_active':user.is_active, 'date_joined':user.date_joined} for user in users]
             return JsonResponse(data, safe=False)
-    
+
+
+@api_view(['POST'])
+def register_user(request):
+    # Extract registration data from request
+    email = request.data.get('email')
+    username = request.data.get('username')
+    password = request.data.get('password')
+    first_name = request.data.get('first_name')
+    last_name = request.data.get('last_name')
+
+
+    # Create the user
+    user = User.objects.create_user(username=username, email=email, password=password, 
+                                    first_name=first_name, last_name=last_name)
+
+    return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
     
 
 class TourSerializerView(viewsets.ModelViewSet):
@@ -57,6 +72,7 @@ class LoginView(APIView):
             user = authenticate(request, username=username, password=password)
             if user:
                 #Authentication successful
+                update_last_login(None, user)
                 return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
             else:
                 #Authentication failed

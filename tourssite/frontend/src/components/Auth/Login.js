@@ -12,7 +12,6 @@ export default function Login(){
         const [username, setUsername] = useState('');
         const [password, setPassword] = useState('');
         const [error, setError] = useState('');
-
         const handleLogin = async () => {
           try {
             const response = await axios.post('/api/login/', {
@@ -39,7 +38,7 @@ export default function Login(){
             <div className="card px-4" style={{borderRadius:"20px", width:300}}>
               <h2 style={{textAlign:"center"}}>Sign in to your Tours account</h2>
               <div className="mt-4" style={{fontFamily:"PT Mono", color: "#5B5A5A"}}>
-                Email or username
+               Username
               </div>
               <TextField value={username} size="small" sx={{mb: 3}} onChange={(e)=> setUsername(e.target.value)}/>
               <div style={{fontFamily:"PT Mono", color: "#5B5A5A"}}>

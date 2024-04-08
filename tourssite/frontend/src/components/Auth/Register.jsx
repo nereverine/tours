@@ -3,8 +3,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Checkbox, FormControlLabel, Box } from "@mui/material";
 import { positions } from '@mui/system';
-import {useNavigate, Link} from "react-router-dom";
-import bcrypt from "bcryptjs";
+import {useNavigate, Link, Navigate} from "react-router-dom";
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
@@ -20,7 +19,7 @@ export default function Register(){
      const [lastName, setLastName] = useState("");
      const [errors, setErrors] = useState({});
      const [successMessage, setSuccessMessage] = useState("");
-
+     const navigate = useNavigate();
 
     const validateForm = () => {
       const errors = {};
@@ -69,17 +68,15 @@ export default function Register(){
             setErrors({...errors, email:"Email already exists"});
             return;
           }
-
-          //Hash the password
-          const hashedPassword = await bcrypt.hash(password,10);
           //Create the user
-          /* const response = await axios.post('/api/users/', {
+           const response = await axios.post('/api/register/', {
             username,
             email,
-            password: hashedPassword,
+            password: password,
             first_name: firstName,
-            last_name: lastName,}); */
+            last_name: lastName,}); 
             setSuccessMessage("Account created successfully!")
+            navigate("/login")
           //You can handle success response here
         } catch (error) {
           console.error("Error creating user:", error);
