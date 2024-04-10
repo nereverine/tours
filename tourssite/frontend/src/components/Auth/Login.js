@@ -2,8 +2,9 @@ import React, { Component, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Checkbox, FormControlLabel } from "@mui/material";
+import Alert from '@mui/material/Alert';
 import { positions } from '@mui/system';
-import {useNavigate, Link} from "react-router-dom";
+import {useNavigate, Link, json} from "react-router-dom";
 import axios from "axios";
 
 export default function Login(){
@@ -12,17 +13,33 @@ export default function Login(){
         const [username, setUsername] = useState('');
         const [password, setPassword] = useState('');
         const [error, setError] = useState('');
+        const [unauthorizedMessage, setUnauthorizedMessage] = useState("");
         const handleLogin = async () => {
           try {
-            const response = await axios.post('/api/login/', {
+            /* const response = await axios.post('/api/login/', {
               username: username,
-              password: password
-            });
+              password: password */
+              const user = {
+                username: username,
+                password: password
+               };
+          // Create the POST request
+                const {data} = await                                                                            
+                         axios.post('/token/',
+                         user ,{headers: 
+                        {'Content-Type': 'application/json'},
+                         withCredentials: true});
+            localStorage.setItem('access_token', data.access);
+            localStorage.setItem('refresh_token', data.refresh);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${data['access']}`;
+            
             //Successful login
-            alert("yo we in");
+            window.location.href='/'          
           }catch(error){
-            //alert(error.response.data.error);
-            alert(error)
+            //if the credentials dont match/exist
+             if(error.response.status==401){
+              setUnauthorizedMessage("Invalid credentials!");
+            } 
           }
         };
 
@@ -37,6 +54,7 @@ export default function Login(){
           <img src="./images/logo.png" height="250" width="250" className="mx-4 mb-5"></img>
             <div className="card px-4" style={{borderRadius:"20px", width:300}}>
               <h2 style={{textAlign:"center"}}>Sign in to your Tours account</h2>
+              {unauthorizedMessage && <Alert severity="error">{unauthorizedMessage}</Alert>}
               <div className="mt-4" style={{fontFamily:"PT Mono", color: "#5B5A5A"}}>
                Username
               </div>

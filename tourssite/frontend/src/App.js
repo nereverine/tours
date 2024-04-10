@@ -3,6 +3,8 @@ import Modal from "./components/Modal";
 import Login from "./components/Auth/Login";
 import NoPage from "./components/NoPage";
 import Register from "./components/Auth/Register";
+import Main from "./components/Main";
+import Logout from "./components/Auth/Logout"
 import axios from "axios";
 import { Card } from "reactstrap";
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
@@ -50,14 +52,14 @@ class App extends Component {
   }
 
   componentDidMount(){
-    this.refreshList();
+    //this.refreshList();
   }
 
-  refreshList = () => {
+  /* refreshList = () => {
     axios.get("/api/tours")
     .then((res) => this.setState({todoList: res.data}))
     .catch((err) => console.log(err));
-  };
+  }; */
 
   toggle = () => {
     this.setState({ modal: !this.state.modal });
@@ -95,8 +97,10 @@ class App extends Component {
     return (
       
       <Routes>
-        <Route path="/login" element={<Login/>}></Route>
         <Route path="/register" element={<Register/>}></Route>
+        <Route path="/login" element={<Login/>}></Route>
+        <Route path="/logout" element={<Logout/>}></Route>
+        <Route path="/" element={<Main/>}></Route>
         <Route path="*" element={<NoPage/>}></Route>
       </Routes>
  
