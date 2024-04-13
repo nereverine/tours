@@ -1,0 +1,19 @@
+.Navbar{
+    font-family: "PT-Mono";
+}
+
+.inactive{
+    background-color: #e0e1e2;
+    color:"#000000";
+    font-size: 24px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1;
+}
+
+.navbar-light .navbar-nav .nav-link.active{
+    background-color: #6598e5;
+    color: white;
+    font-size: 24px;
+}
+

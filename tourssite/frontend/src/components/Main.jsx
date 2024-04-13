@@ -4,10 +4,15 @@ import { Button } from "reactstrap";
 import {useNavigate, Link, Navigate} from "react-router-dom";
 document.title="Tours"
 
+let isLoggedIn = false
+if(localStorage.getItem('access_token')!==null){
+  isLoggedIn = true;
+}
+
 export default function Main(){
 
     useEffect(() => {
-        if(localStorage.getItem('access_token') === null){                   
+        if(isLoggedIn === false){                   
             window.location.href = '/login'
         }
         else{
@@ -30,8 +35,8 @@ export default function Main(){
 
   return(
      <div>
-    //If the user is logged in, render:
-      {localStorage.getItem('access_token') ? (
+    {/* If the user is logged in, render: */}
+      {isLoggedIn ? (
         <Button>Logged in</Button>
       ) : (<></>)
       }

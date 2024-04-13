@@ -8,6 +8,7 @@ import Logout from "./components/Auth/Logout"
 import axios from "axios";
 import { Card } from "reactstrap";
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Navbar from "./components/Navbar";
 
 const todoItems = [
   {
@@ -35,6 +36,11 @@ const todoItems = [
     completed: false,
   },
 ];
+
+let isLoggedIn = false
+if(localStorage.getItem('access_token')!==null){
+  isLoggedIn = true;
+}
 
 class App extends Component {
   constructor(props) {
@@ -94,17 +100,26 @@ class App extends Component {
   };
 
   render() {
+      
+
     return (
       
-      <Routes>
-        <Route path="/register" element={<Register/>}></Route>
-        <Route path="/login" element={<Login/>}></Route>
-        <Route path="/logout" element={<Logout/>}></Route>
-        <Route path="/" element={<Main/>}></Route>
-        <Route path="*" element={<NoPage/>}></Route>
+      <div>
+        {/* navbar only appears if the user is logged in */}
+        {isLoggedIn ? <Navbar></Navbar>: null}
+        
+        <Routes>   
+          <Route path="/register" element={<Register/>}></Route>
+          <Route path="/login" element={<Login/>}></Route>
+          <Route path="/logout" element={<Logout/>}></Route>
+          <Route path="/" element={<Main/>}></Route>
+          <Route path="*" element={<NoPage/>}></Route>
       </Routes>
- 
-       
+      
+    </div>
+      
+
+
       
       
     );
