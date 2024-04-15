@@ -18,6 +18,12 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 from tours import views
+<<<<<<< Updated upstream
+=======
+from rest_framework_simplejwt import views as jwt_views
+from rest_framework_simplejwt.views import TokenRefreshView
+
+>>>>>>> Stashed changes
 
 router = routers.DefaultRouter()
 router.register(r'tours', views.TourSerializerView, 'tours')
@@ -27,6 +33,15 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('api/', include(router.urls)),
     path("__debug__/", include("debug_toolbar.urls")),
+<<<<<<< Updated upstream
+=======
+    path("api/login/", views.LoginView.as_view(), name='login'),
+    path("api/logout/", views.LogoutView.as_view(), name="logout"),
+    path("api/user/", views.user_list, name="user-list"),
+    path('api/register/', views.register_user, name="register_user"),
+    path('token/', views.MyTokenObtainPairView.as_view(),name ='token_obtain_pair'),
+    path('token/refresh/', jwt_views.TokenRefreshView.as_view(),name ='token_refresh')
+>>>>>>> Stashed changes
 ]
 
 admin.site.site_header = "Tours Administration"
