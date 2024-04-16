@@ -21,6 +21,8 @@ from tours import views
 from rest_framework_simplejwt import views as jwt_views
 
 
+
+
 router = routers.DefaultRouter()
 router.register(r'tours', views.TourSerializerView, 'tours')
 router.register(r'users', views.UserSerializerView, 'users')
@@ -34,7 +36,7 @@ urlpatterns = [
     path("api/logout/", views.LogoutView.as_view(), name="logout"),
     path("api/user/", views.user_list, name="user-list"),
     path('api/register/', views.register_user, name="register_user"),
-    path('token/', jwt_views.TokenObtainPairView.as_view(),name ='token_obtain_pair'),
+    path('token/', views.MyTokenObtainPairView.as_view(),name ='token_obtain_pair'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(),name ='token_refresh')
 ]
 

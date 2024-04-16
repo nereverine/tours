@@ -4,8 +4,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from "@mui/material/Button";
 import '../styles/navbar.css'
-function NavBar(){
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { jwtDecode} from "jwt-decode"
 
+function NavBar(){
+  const token = localStorage.getItem('access_token')
+  const fullName = jwtDecode(token).first_name + " " + jwtDecode(token).last_name
 
 
     return(   
@@ -22,9 +26,15 @@ function NavBar(){
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
-            Signed in as: <a href="#login">Mark Otto</a>
-          </Navbar.Text>
+          <NavDropdown className='mx-4'style={{right:100}} title={<AccountCircleIcon style={{transform:"scale(3)"}}></AccountCircleIcon>}>
+            <Navbar.Text>
+              Welcome, {fullName}
+            </Navbar.Text>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href='/logout'>
+              Logout
+            </NavDropdown.Item>
+          </NavDropdown>
         </Navbar.Collapse>
     
     </Navbar>

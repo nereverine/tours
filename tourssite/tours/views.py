@@ -13,6 +13,8 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from .serializers import MyTokenObtainPariSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 # Create your views here.
 def index(request):
@@ -93,3 +95,6 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPariSerializer

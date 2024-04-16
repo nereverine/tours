@@ -10,7 +10,7 @@ if(localStorage.getItem('access_token')!==null){
 }
 
 export default function Main(){
-alert(localStorage.getItem('access_token'));
+
     useEffect(() => {
         if(isLoggedIn === false){                   
             window.location.href = '/login'
