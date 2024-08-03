@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tour
+from .models import Tour, TourUsers, TourPoi
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -13,6 +13,14 @@ class TourSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):  
     class Meta:
         model = User
+        fields = '__all__'
+class TourUsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TourUsers
+        fields = '__all__'
+class TourPoiSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TourPoi
         fields = '__all__'
 
 

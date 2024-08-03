@@ -7,14 +7,32 @@ import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import { jwtDecode} from "jwt-decode";
 document.title="Tours"
 
+const token = localStorage.getItem('access_token')
+//const userId = jwtDecode(token).user_id
+
 let isLoggedIn = false
-if(localStorage.getItem('access_token')!==null){
+if(token!==null){
   isLoggedIn = true;
 }
 
 export default function Main(){
+  const [state, setState] = useState({
+    toursList:[],
+  })
+
+  const refreshList = () => {
+    axios.get("/tours", {
+       params: { 
+        //userId: userId
+      } 
+    })
+      .then((res) => setState({ toursList: res.data })); alert(state.toursList)
+      .catch((err) => console.log(err));
+  };
 
     useEffect(() => {
         if(isLoggedIn === false){                   
@@ -33,9 +51,11 @@ export default function Main(){
             console.log('not auth')
           }
          })()};
-     }, []);
+         refreshList();
+     },  
+      []);
 
-
+  
 
 
   return(
@@ -51,8 +71,24 @@ export default function Main(){
         </Button>
       </div>
       <div className="home-container3">
-        ola
+      <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={4}>
+        <Grid item xs={8}>
+          <Card>xs=8</Card>
+        </Grid>
+        <Grid item xs={4}>
+          <Card>xs=4</Card>
+        </Grid>
+        <Grid item xs={4}>
+          <Card>xs=4</Card>
+        </Grid>
+        <Grid item xs={8}>
+          <Card>xs=8</Card>
+        </Grid>
+      </Grid>
+    </Box>
       </div>
+      
     </div>
 
 

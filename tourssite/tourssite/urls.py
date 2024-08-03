@@ -28,7 +28,7 @@ router.register(r'tours', views.TourSerializerView, 'tours')
 router.register(r'users', views.UserSerializerView, 'users')
 urlpatterns = [
     path("", views.index, name="index"),
-    path("tours/", include("tours.urls")),
+    #path("tours/", include("tours.urls")),
     path("admin/", admin.site.urls),
     path('api/', include(router.urls)),
     path("__debug__/", include("debug_toolbar.urls")),
@@ -37,7 +37,8 @@ urlpatterns = [
     path("api/user/", views.user_list, name="user-list"),
     path('api/register/', views.register_user, name="register_user"),
     path('token/', views.MyTokenObtainPairView.as_view(),name ='token_obtain_pair'),
-    path('token/refresh/', jwt_views.TokenRefreshView.as_view(),name ='token_refresh')
+    path('token/refresh/', jwt_views.TokenRefreshView.as_view(),name ='token_refresh'),
+    path('tours/', views.userTours, name="userTours"),
 ]
 
 admin.site.site_header = "Tours Administration"

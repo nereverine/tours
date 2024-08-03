@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from rest_framework import viewsets
 from django.contrib.auth.models import User, update_last_login
 from .serializers import TourSerializer, UserSerializer, LoginSerializer
-from .models import Tour
+from .models import Tour, TourUsers, TourPoi
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -98,3 +98,15 @@ class LogoutView(APIView):
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPariSerializer
+
+
+def userTours(request):
+    userId = request.GET.get('userId') #Get the userId
+    tourUsers = TourUsers.objects.filter(userId__exact=userId).values()
+    tourIds = []
+    tours = []
+    for tourUser in tourUsers:
+        tours.append(Tour.objects.get(id=tourUser['tourId_id']))
+    data = [{'id': tour.id, 'city_id': tour.cityId_id, 'name': tour.name, 'startDate': tour.startDate, 'endDate': tour.endDate} for tour in tours]
+    #return HttpResponse(tours[0])
+    return JsonResponse(data, safe=False)
